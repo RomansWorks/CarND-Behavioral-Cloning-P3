@@ -25,6 +25,7 @@ train_samples, validation_samples = train_test_split(samples, test_size=0.2)
 
 import cv2
 import sklearn
+import matplotlib.image as mpimg
 
 from keras.models import Sequential
 from keras.layers import Flatten, Dense, Lambda, Convolution2D, Cropping2D
@@ -51,19 +52,19 @@ def generator(samples, batch_size=32):
                 
                 # Process center image
                 center_image_name = './recorded_drives/IMG/'+batch_sample[0].split('/')[-1]
-                center_image = cv2.imread(center_image_name)
+                center_image = mpimg.imread(center_image_name)
                 images.append(center_image)
                 angles.append(center_angle)
                 
                 # Process side images
                 left_image_name = './recorded_drives/IMG/'+batch_sample[1].split('/')[-1]
-                left_image = cv2.imread(left_image_name)
+                left_image = mpimg.imread(left_image_name)
                 left_angle = center_angle + SIDE_CAMERA_ANGLE_CORRECTION
                 images.append(left_image)
                 angles.append(left_angle)
 
                 right_image_name = './recorded_drives/IMG/'+batch_sample[2].split('/')[-1]
-                right_image = cv2.imread(right_image_name)
+                right_image = mpimg.imread(right_image_name)
                 right_angle = center_angle - SIDE_CAMERA_ANGLE_CORRECTION
                 images.append(right_image)
                 angles.append(right_angle)
