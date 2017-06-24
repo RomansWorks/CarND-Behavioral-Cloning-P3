@@ -16,9 +16,10 @@ import sklearn
 
 from keras.models import Sequential
 from keras.layers import Flatten, Dense, Lambda, Convolution2D, Cropping2D
+from keras.layers.core import Dropout
 
 SIDE_CAMERA_ANGLE_CORRECTION = 0.2
-BATCH_SIZE=64
+BATCH_SIZE=128
 
 
 def generator(samples, batch_size=32):
@@ -78,6 +79,7 @@ model.add(Convolution2D(64,(3,3),activation='relu'))
 model.add(Convolution2D(64,(3,3),activation='relu'))
 model.add(Flatten())
 model.add(Dense(1164, activation='relu'))
+model.add(Dropout(0.2))
 model.add(Dense(100, activation='relu'))
 model.add(Dense(50, activation='relu'))
 model.add(Dense(10, activation='relu'))
@@ -90,7 +92,7 @@ history_object = model.fit_generator(train_generator,
                                      steps_per_epoch=len(train_samples)/BATCH_SIZE,
                                      validation_data=validation_generator,
                                      validation_steps=len(validation_samples)/BATCH_SIZE,
-                                     epochs=2,
+                                     epochs=6,
                                      verbose=1)
 
 model.save('model.h5')
