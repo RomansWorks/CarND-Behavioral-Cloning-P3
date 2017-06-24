@@ -1,11 +1,21 @@
 import os
 import csv
+import numpy as np
 
 samples = []
 with open('./recorded_drives/driving_log.csv') as csvfile:
     reader = csv.reader(csvfile)
     for line in reader:
         samples.append(line)
+
+angles = np.array([sample[3] for sample in samples], dtype='float64')
+print(angles[0:200])
+weights = [0.1,0.3,0.6,0.3,0.1]
+smoothed_angles = np.convolve(angles,np.array(weights)[::-1],'same')
+for idx, sample in enumerate(samples):
+    sample[3] = smoothed_angles[idx]
+print(smoothed_angles[0:200])
+
 
 # TODO: Smooth values in the driving log.
 # Isn't very friendly to stiched recordings, but better than the jumps we have now
@@ -14,7 +24,6 @@ from sklearn.model_selection import train_test_split
 train_samples, validation_samples = train_test_split(samples, test_size=0.2)
 
 import cv2
-import numpy as np
 import sklearn
 
 from keras.models import Sequential
