@@ -8,13 +8,13 @@ with open('./recorded_drives/driving_log.csv') as csvfile:
     for line in reader:
         samples.append(line)
 
-angles = np.array([sample[3] for sample in samples], dtype='float64')
-print(angles[0:200])
-weights = [0.1,0.3,0.6,0.3,0.1]
-smoothed_angles = np.convolve(angles,np.array(weights)[::-1],'same')
-for idx, sample in enumerate(samples):
-    sample[3] = smoothed_angles[idx]
-print(smoothed_angles[0:200])
+#angles = np.array([sample[3] for sample in samples], dtype='float64')
+#print(angles[0:200])
+#weights = [0.1,0.3,0.6,0.3,0.1]
+#smoothed_angles = np.convolve(angles,np.array(weights)[::-1],'same')
+#for idx, sample in enumerate(samples):
+#    sample[3] = smoothed_angles[idx]
+#print(smoothed_angles[0:200])
 
 
 # TODO: Smooth values in the driving log.
