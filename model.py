@@ -7,6 +7,9 @@ with open('./recorded_drives/driving_log.csv') as csvfile:
     for line in reader:
         samples.append(line)
 
+# TODO: Smooth values in the driving log.
+# Isn't very friendly to stiched recordings, but better than the jumps we have now
+
 from sklearn.model_selection import train_test_split
 train_samples, validation_samples = train_test_split(samples, test_size=0.2)
 
@@ -79,8 +82,9 @@ model.add(Convolution2D(64,(3,3),activation='relu'))
 model.add(Convolution2D(64,(3,3),activation='relu'))
 model.add(Flatten())
 model.add(Dense(1164, activation='relu'))
-model.add(Dropout(0.2))
+model.add(Dropout(0.3))
 model.add(Dense(100, activation='relu'))
+model.add(Dropout(0.3))
 model.add(Dense(50, activation='relu'))
 model.add(Dense(10, activation='relu'))
 model.add(Dense(1, activation='tanh'))
@@ -92,7 +96,7 @@ history_object = model.fit_generator(train_generator,
                                      steps_per_epoch=len(train_samples)/BATCH_SIZE,
                                      validation_data=validation_generator,
                                      validation_steps=len(validation_samples)/BATCH_SIZE,
-                                     epochs=6,
+                                     epochs=20,
                                      verbose=1)
 
 model.save('model.h5')
