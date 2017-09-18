@@ -1,8 +1,4 @@
-#**Behavioral Cloning** 
-
-##Writeup Template
-
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
+# Behavioral Cloning 
 
 ---
 
@@ -17,26 +13,28 @@ The goals / steps of this project are the following:
 
 
 ## Rubric Points
-###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
 
-###Files Submitted & Code Quality
+Below I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
 
-####1. Submission includes all required files and can be used to run the simulator in autonomous mode
+### Files Submitted & Code Quality
+
+#### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
 
 My project includes the following files:
-* model.py containing the script to create and train the model
-* drive.py for driving the car in autonomous mode. Modified with speed parameter.
-* model.h5 containing a trained convolution neural network 
-* writeup_report.md  summarizing the results
-* video.mp4 proof of autonomous driving (two consecutive laps)
+* `model.py` containing the script to create and train the model
+* `drive.py` for driving the car in autonomous mode. Modified with speed parameter.
+* `model.h5` containing a trained convolution neural network 
+* `writeup_report.md`  summarizing the results
+* `video.mp4` proof of autonomous driving (two consecutive laps)
 
 Also included in the git repository (optional, and very large):
 1. `run1/` - Images from the first recorded run, which were used to create video.mp4
 2. `recorded_drives/` - the training data used to train the model
 
-####2. Submission includes functional code
+#### 2. Submission includes functional code
 
-Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
+Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing:
+
 ```sh
 python drive.py model.h5
 ```
@@ -44,14 +42,14 @@ python drive.py model.h5
 The car runs fine on the first track.
 It negotiates only some of the second (optional) track. Further training on the second track will likely solve that, as well as possibly some modifications to the FOV.
 
-####3. Submission code is usable and readable
+#### 3. Submission code is usable and readable
 
 The model.py file contains the code for training and saving the convolution neural network. 
 The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
 
-###Model Architecture and Training Strategy
+### Model Architecture and Training Strategy
 
-####1. An appropriate model architecture has been employed
+#### 1. An appropriate model architecture has been employed
 
 I used the NVidia architecture from https://arxiv.org/abs/1604.07316 (see lines 100-112 in `model.py`)
 
@@ -59,7 +57,7 @@ RELU nonlinearities are used in hidden and convolutional layers, and TANH is use
 
 I've added dropout layers following the first two fully connected layers, to reduce overfitting.
 
-####2. Attempts to reduce overfitting in the model
+#### 2. Attempts to reduce overfitting in the model
 
 Overfitting was indeed a problem. Here's example (partial) output of one of the more advanced models.
 In this model, dropout was already employed, but only on one layer and with a low 0.3 dropout probability:
@@ -126,14 +124,14 @@ Epoch 30/30
 ```
 
 I resolved this by adding one more dropout layer, after the next hidden layer. Both dropout layers are set to probability 0.3.
-Keras ensures that dropout is only emplyed during training, and that the remaining weights passed through the dropout layer are scaled appropriately.
+Keras ensures that dropout is only employed during training, and that the remaining weights passed through the dropout layer are scaled appropriately.
 
-####3. Model parameter tuning
+#### 3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually (`model.py` line 116).
+The model used an Adam optimizer, so the learning rate was not tuned manually (`model.py` line 116).
 Batch size was increased to speed up training. Since I was using a P1 GPU instance on Amazon, batch size of 128 was not an issue.
 
-####4. Appropriate training data
+#### 4. Appropriate training data
 
 I collected about 5 laps of center lane driving in the regular direction. 
 I then collected several recordings of recovery driving which started near the road edge, 
@@ -145,9 +143,9 @@ balance out multiple recovery drivings at the bridge.
 I also had to collect additional reverse lane driving data to resolve a tendency to steer to the left.
 
 
-###Model Architecture and Training Strategy
+### Model Architecture and Training Strategy
 
-####1. Solution Design Approach
+#### 1. Solution Design Approach
 
 I used the NVidia architecture from https://arxiv.org/abs/1604.07316, since it uses a similar three camera setup and was mentioned in class.
 
@@ -167,17 +165,17 @@ Note that the code was tested and executed on a AWS P1 instance with TensorFlow 
 Since the generator and Keras parameters follow the Keras 2 convention, the code will fail to load on older versions.
 
 
-####2. Final Model Architecture
+#### 2. Final Model Architecture
 
 The final architecture is described above, it is the NVidia reference architecture with nonlinearity and dropoout configured by me.
 
-####3. Creation of the Training Set & Training Process
+#### 3. Creation of the Training Set & Training Process
 
 Please see "Appropriate training data" above
 
 After the collection process, I had ~25K data points. 
 
-I  randomly shuffled the data set and put 20% of the data into a validation set. 
+I randomly shuffled the data set and put 20% of the data into a validation set. 
 
 In the Keras pipeline, I truncate the image and normalize it, before feeding it into the network.
 
@@ -185,4 +183,10 @@ I used this training data for training the model. The validation set helped dete
 
 The ideal number of epochs was 6-15 (depending on which model I tried) as evidenced by the example run log embedded above.
 
-I used an adam optimizer so that manually training the learning rate wasn't necessary.
+I used an Adam optimizer so that manually training the learning rate wasn't necessary.
+
+### Simulation
+
+The car runs fine on the first track.
+It negotiates only some of the second (optional) track. Further training on the second track will likely solve that, as well as possibly some modifications to the FOV.
+
