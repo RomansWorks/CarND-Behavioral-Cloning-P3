@@ -28,8 +28,8 @@ My project includes the following files:
 * `video.mp4` proof of autonomous driving (two consecutive laps)
 
 Also included in the git repository (optional, and very large):
-1. `run1/` - Images from the first recorded run, which were used to create video.mp4
-2. `recorded_drives/` - the training data used to train the model
+1. `run1/` - Images from the first recorded run, which were used to create video.mp4. NOTE: Zipped due to Udacity file count limit
+2. `recorded_drives/` - the training data used to train the model. NOTE: Images removed due to Udacity file count limit an GitHub zipfile size limit. Available to Udacity reviewers upon request.
 
 #### 2. Submission includes functional code
 
